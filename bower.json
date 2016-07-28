@@ -1,8 +1,9 @@
 {
   "name": "angular-bootstrap-checkbox",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "authors": [
-    "Sebastian Hammerl, Getslash GmbH"
+    "Sebastian Hammerl, Getslash GmbH",
+    "Chaudhry Junaid Anwar"
   ],
   "description": "A checkbox for AngularJS styled to fit the Twitter Bootstrap standard design",
   "main": "angular-bootstrap-checkbox.js",

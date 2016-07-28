@@ -2,13 +2,15 @@
 
 angular.module("ui.checkbox", []).directive("checkbox", function() {
 	return {
-		scope: {},
+		scope: {
+			indeterminate: "=indeterminate"
+		},
 		require: "ngModel",
 		restrict: "E",
 		replace: "true",
 		template: "<button type=\"button\" ng-style=\"stylebtn\" class=\"btn btn-default\" ng-class=\"{'btn-xs': size==='default', 'btn-sm': size==='large', 'btn-lg': size==='largest', 'checked': checked===true}\">" +
-			"<span ng-style=\"styleicon\" class=\"glyphicon\" ng-class=\"{'glyphicon-ok': checked===true, 'glyphicon-minus': checked===undefined}\"></span>" +
-			"</button>",
+		"<span ng-style=\"styleicon\" class=\"glyphicon\" ng-class=\"{'glyphicon-ok': checked===true, 'glyphicon-minus': checked===undefined}\"></span>" +
+		"</button>",
 		compile: function compile(elem, attrs, transclude) {
 			if(attrs.ngClass !== undefined) {
 				attrs.ngClass = attrs.ngClass.replace(/}\s*{/g, ", ");
@@ -35,10 +37,6 @@ angular.module("ui.checkbox", []).directive("checkbox", function() {
 					scope.size = "largest";
 					scope.stylebtn = {"padding-top": "2px", "padding-bottom": "2px", "height": "45px"};
 					scope.styleicon = {"width": "11px", "left": "-11px", "font-size": "30px"};
-				}
-				var indeterminate = false;
-				if(attrs.indeterminate === "true") {
-					indeterminate = true;
 				}
 
 				var trueValue = true;
@@ -67,14 +65,14 @@ angular.module("ui.checkbox", []).directive("checkbox", function() {
 				scope.$watch(function() {
 					if(modelCtrl.$modelValue === trueValue || modelCtrl.$modelValue === true) {
 						modelCtrl.$setViewValue(trueValue);
-					} else if(indeterminate === true && (modelCtrl.$modelValue === indeterminateValue || modelCtrl.$modelValue === undefined)) {
+					} else if(scope.indeterminate === true && (modelCtrl.$modelValue === indeterminateValue || modelCtrl.$modelValue === undefined)) {
 						modelCtrl.$setViewValue(indeterminateValue);
 					} else {
 						modelCtrl.$setViewValue(falseValue);
 					}
 					return modelCtrl.$modelValue;
 				}, function(newVal, oldVal) {
-					if(indeterminate === true && modelCtrl.$modelValue === indeterminateValue) {
+					if(scope.indeterminate === true && modelCtrl.$modelValue === indeterminateValue) {
 						scope.checked = undefined;
 					} else {
 						scope.checked = modelCtrl.$modelValue === trueValue;
@@ -84,7 +82,7 @@ angular.module("ui.checkbox", []).directive("checkbox", function() {
 				// On click swap value and trigger onChange function
 				elem.bind("click", function() {
 					scope.$apply(function() {
-						if(indeterminate === true) {
+						if(scope.indeterminate === true) {
 							if(modelCtrl.$modelValue === falseValue) {
 								modelCtrl.$setViewValue(trueValue);
 							} else if(modelCtrl.$modelValue === trueValue) {
