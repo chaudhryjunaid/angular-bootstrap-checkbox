@@ -3,7 +3,7 @@
 angular.module("ui.checkbox", []).directive("checkbox", function() {
 	return {
 		scope: {
-			indeterminate: "=indeterminate"
+			indeterminate: "="
 		},
 		require: "ngModel",
 		restrict: "E",
@@ -65,14 +65,14 @@ angular.module("ui.checkbox", []).directive("checkbox", function() {
 				scope.$watch(function() {
 					if(modelCtrl.$modelValue === trueValue || modelCtrl.$modelValue === true) {
 						modelCtrl.$setViewValue(trueValue);
-					} else if(scope.indeterminate === true && (modelCtrl.$modelValue === indeterminateValue || modelCtrl.$modelValue === undefined)) {
+					} else if($scope.indeterminate === true && (modelCtrl.$modelValue === indeterminateValue || modelCtrl.$modelValue === undefined)) {
 						modelCtrl.$setViewValue(indeterminateValue);
 					} else {
 						modelCtrl.$setViewValue(falseValue);
 					}
 					return modelCtrl.$modelValue;
 				}, function(newVal, oldVal) {
-					if(scope.indeterminate === true && modelCtrl.$modelValue === indeterminateValue) {
+					if($scope.indeterminate === true && modelCtrl.$modelValue === indeterminateValue) {
 						scope.checked = undefined;
 					} else {
 						scope.checked = modelCtrl.$modelValue === trueValue;
@@ -82,7 +82,7 @@ angular.module("ui.checkbox", []).directive("checkbox", function() {
 				// On click swap value and trigger onChange function
 				elem.bind("click", function() {
 					scope.$apply(function() {
-						if(scope.indeterminate === true) {
+						if($scope.indeterminate === true) {
 							if(modelCtrl.$modelValue === falseValue) {
 								modelCtrl.$setViewValue(trueValue);
 							} else if(modelCtrl.$modelValue === trueValue) {
